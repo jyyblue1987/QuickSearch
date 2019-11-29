@@ -14,7 +14,13 @@
     "notifications",
     "contextMenus"
   ],
-  
+  "omnibox": { "keyword" : "ss" },
+  "background": {
+    "scripts": [
+      "common.js"
+    ],
+    "persistent": false    
+  },
   "browser_action": {
     "default_popup": "data/panel/index.html",
     "browser_style": true
