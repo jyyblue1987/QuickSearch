@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="./jstree/themes/default/style.css" />
+    <link rel="stylesheet" href="./font/fontello.css">
+    <link rel="stylesheet" href="./index.css">
+    <!-- <script src="body.js"></script> -->
+
+    <script src="./jquery_plugin/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" href="./jquery_plugin/jquery.contextMenu.min.css">
+    <script src="./jquery_plugin/jquery.contextMenu.min.js"></script>
+    <script src="./jquery_plugin/jquery.ui.position.js"></script>
+  </head>
+  <body>
+    <!-- <textarea style="display: none;"></textarea> for copy title and link to clipboard -->
+    
+    <!-- keyword list here-->
+    <div class="container">
+      <div class="content">
+        <table id="keyword_list"></table>
+      </div>        
+
+      <!-- bottom toolbar -->
+        <div id="bottom_toolbar" class="leftBottomFixed" style="border-top: 2px solid #ccc; width: 100%;;">
+        <span class="blue_btn" data-cmd="ssAddKeyword" id="add_key" style="margin-left: -2px;">Add keyword</span>  
+        <span class="blue_btn rightBottomFixed" id="btn_setting" data-cmd="ssSettings" style="float: right; margin-right: 4px;">Settings</span>
+        <span class="blue_btn rightBottomFixed" id="btn_login" data-cmd="ssLogin" style="float: right; margin-right: 4px;">Login</span> 
+      </div>
+    </div>
+
+    <!-- Used for Add/Edit Keyword -->
+    <div id="dlg_addKeyword" class="dialog">
+      <input type="text" placeholder="Example" id="dlg_example">
+      <img id="dlg_i_example" src="./icons/info.png" title="What you type to use this shortcut" style="width: 16px; height: 16px;" hidden></i>
+      <input type="text" placeholder="Keyword" id="dlg_keyword">
+      <img id="dlg_i_keyword" src="./icons/info.png" title="What you type to use this shortcut" style="width: 16px; height: 16px;" hidden></i>
+      <input type="text" placeholder="Search term with %key%" id="dlg_term">      
+      <img id="dlg_i_term" src="./icons/info.png" style="width: 16px; height: 16px;" title="Perform a search on a website and copy the resulting URL. &#013;Replace your search term with %key% in curly brackets &#013;e.g. http://twitter.com/search?q=%key%" hidden></i>
+      <div id="dlg_btn" style="margin-top: 40px; font-size: 1.2em;">
+        <span id="escapeIt" type="button" class="grey_btn" style="margin-right: 100px;"> Cancel</span>
+        <span id="addIt" type="button" class="blue_btn"> Done</span>        
+      </div>      
+    </div>
+
+    <!-- Used for Login Dialog -->
+    <div id="dlg_login" class="dialog">
+      <span class="dialog_title">Login</span>
+      <input type="text" placeholder="Your email" id="dlg_login_email" class="outline">
+      <span id="dlg_login_email_hint" style="display: block; font-size: 10x !important; text-align: left !important; margin-left: 40px; margin-bottom: 0px;" class="login_wrong" hidden>Sorry, but the username doesn't exist</span>
+      <input type="password" placeholder="Your password" id="dlg_login_password" >
+      <span id="dlg_login_password_hint" class="login_wrong" style="display: block; font-size: 10x !important; text-align: left !important; margin-left: 40px; margin-bottom: 0px;">Sorry, but this password is wrong</span>
+      <span id="dlg_login_forgot" class="dialog_row_btn grey_btn" style="margin-bottom: 40px;">Lost the password?</span>
+      <span id="dlg_login_btn_login" class="blue_btn outline_btn dialog_row_btn">Log In</span>
+      <span id="dlg_login_btn_register" class="blue_btn dialog_row_btn" style="margin-top: 20px;">Register</span>
+    </div>
+
+    <!-- used for Sigin Up dialog -->
+    <div id="dlg_register" class="dialog">
+      <span class="dialog_title">Sign Up</span>
+      <input type="text" placeholder="Email" id="dlg_register_email">
+      <input type="password" placeholder="Password" id="dlg_register_password">
+      <input type="password" placeholder="Confirm" id="dlg_register_confirm">
+      <span style="display:block; font-size: 16px; margin-left: 40px; text-align: left;;">By registering, you agree to adibe by our <span class="blue_btn">Terms and Conditions</span></span>
+      <span id="dlg_register_btn_register" class="blue_btn outline_btn dialog_row_btn" style="margin-top: 40px;">Register</span>
+      <span id="dlg_register_btn_login" class="blue_btn dialog_row_btn">Log In</span>
+    </div>
+
+    <!-- used for Settings dialog -->
+    <div id="dlg_setting" class="dialog" style="text-align: left;">
+      <span class="dialog_title" style="text-align: center;">Settings</span>
+      <div class="setting_item" style="margin-bottom: 40px;">
+        <span style="font-weight: bold;">Email</span><br>
+        <span id="dlg_setting_mail"></span>
+        <span class="blue_btn setting_right_fixed" style="float: right; padding: 0px; margin: 0px;" id="dlg_setting_btn_mail">Edit</span>
+      </div>
+      <div class="setting_item" style="margin-bottom: 40px;">
+        <span style="font-weight: bold;">Password</span><br>
+        <span>************</span>
+        <span class="blue_btn setting_right_fixed" style="float: right; padding: 0px; margin: 0px;" id="dlg_setting_btn_pass">Edit</span>  
+      </div>
+      <div class="setting_item" style="margin-bottom: 20px;">
+        <span style="font-weight: bold;">Language</span><br>
+        <span>English</span>
+        <span class="blue_btn setting_right_fixed" style="float: right; padding: 0px; margin: 0px;" id="dlg_setting_btn_lang">Edit</span>
+      </div>
+      <span style="display:block; margin-left: 40px; color: red; margin-bottom: 40px;" id="dlg_setting_btn_delete">Delete Account</span>
+      <div id="bottom_toolbar" style="border-top: 1px solid #ccc; width: 100%;"></div>
+      <span id="dlg_setting_btn_logout" class="blue_btn dialog_row_btn" style="font-weight: bold; text-align: center;">Logout</span>
+    </div>
+
+    <!-- used for Update email -->
+    <div id="dlg_mail" class="dialog">
+        <span class="dialog_title">Update Email</span>
+        <input type="text" placeholder="Email" id="dlg_mail_new" style="margin-top: 15px; margin-bottom: 25px;">
+        <span class="blue_btn outline_btn dialog_row_btn" style="width: 60%; margin-left: 20%;" id="dlg_mail_update">Update</span>
+        <span class="grey_btn dialog_row_btn" id="dlg_mail_cancel">Cancel</span>
+    </div>
+
+    <!-- used for reset password -->
+    <div id="dlg_password" class="dialog">
+        <span class="dialog_title">Reset password</span>
+        <input type="text" placeholder="Email" id="dlg_password_mail">
+        <span style="display: block; text-align: left; margin-left: 40px; margin-top: 40px; margin-bottom: 30px;">Enter the email address that you used for the registration. We will send you an for an email with instructions.</span>
+        <span class="blue_btn outline_btn dialog_row_btn" style="margin-left: 20%; width: 60%;" id="dlg_password_reset">Reset password</span>
+        <span class="blue_btn dialog_row_btn" id="dlg_password_cancel">Cancel</span>
+    </div>
+
+    <!-- used for new password -->
+    <div id="dlg_password_new" class="dialog">
+        <span class="dialog_title">New Password</span>
+        <input type="text" placeholder="Password" id="dlg_password_new_new">
+        <input type="text" placeholder="Confirm" id="dlg_password_new_confirm">
+        <span class="blue_btn outline_btn dialog_row_btn" style="margin-left: 20%; width: 60%; margin-top: 40px; margin-bottom: 0px;" id="dlg_password_new_update">Update</span>
+        <span class="blue_btn dialog_row_btn" id="dlg_password_new_cancel">Cancel</span>
+    </div>
+
+    <!-- used for delete account -->
+    <div id="dlg_delete_account" class="dialog">
+        <span class="dialog_title">Delete Account</span>
+        <span style="display:block; margin-left: 10%; width: 80%; text-align: left;">By delete your account, you will no longer be able to have access, all data will lose immediately, it is not possible to restore. Please review our Privacy Policy</span>
+        <span class="blue_btn outline_btn dialog_row_btn" style="margin-left: 20%; width: 60%; margin-top: 40px; margin-bottom: 0px;" id="dlg_delete_btn_confirm">Confirm and delete</span>
+        <span class="grey_btn dialog_row_btn" id="dlg_delete_btn_cancel">Cancel</span>
+    </div>
+
+    <!-- used for notification for delete account -->
+    <div id="dlg_notification" class="dialog">
+        <span class="dialog_title"></span>
+        <span style="display: block; margin-left: 10%; width: 80%; text-align: left;">An email containing further instructions has been sent to your email address</span>
+        <span class="blue_btn dialog_row_btn" id="dlg_notification_close">Close</span>
+    </div>
+    
+    <script src="utils.js"></script>
+    <script src="keyword.js"></script>
+  </body>
+</html>

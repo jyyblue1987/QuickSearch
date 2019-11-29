@@ -1,0 +1,33 @@
+{
+  "name": "Speed Search",
+  "short_name": "Speed Search",
+  "description": "An elegant Sepeed Search with fuzzy search and more",
+  "author": "Ali",
+  "version": "1.0",
+  "manifest_version": 2,
+  "permissions": [
+    "storage",
+    "tabs",
+    "chrome://favicon/*",
+    "<all_urls>",
+    "clipboardWrite",
+    "notifications",
+    "contextMenus"
+  ],
+  
+  "browser_action": {
+    "default_popup": "data/panel/index.html",
+    "browser_style": true
+  },
+  "icons": {
+    "16": "data/icons/16.png",
+    "32": "data/icons/32.png",
+    "48": "data/icons/48.png",
+    "128": "data/icons/128.png",
+    "256": "data/icons/256.png",
+    "512": "data/icons/512.png"
+  },
+  "web_accessible_resources": [
+    "favicon.ico"
+  ]
+}
