@@ -7,7 +7,7 @@
  * Home: http://add0n.com/bookmarks-manager.html
  * GitHub: https://github.com/inbasic/bookmarks-manager/
 */
-
+// 2019-12-008 Ximi
 'use strict';
 
 chrome.omnibox.onInputEntered.addListener(function(text) {
